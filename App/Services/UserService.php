@@ -5,19 +5,19 @@
 
     class UserService
     {
-        public function get($id = null) 
+        public function get($id) 
         {
             if($id) {
-                User::select($id);
+                return User::select($id);
             } else {
-                echo "erou";
-              //throw new \Exception("Digite o ID correto");// 
-              //User::selectAll();
+                throw new \Exception("Favor passar um id válido");
             }
         }
 
-        public function post() 
+        public function post()
         {
+            $data = $_POST;
+            return User::insert($data);
 
         }
 

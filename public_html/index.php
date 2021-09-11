@@ -1,5 +1,7 @@
 <?php
 
+
+    header('Content-Type: application/json');
     require_once '../vendor/autoload.php';
     
     // api/users/1
@@ -27,17 +29,25 @@
 
             $method = strtolower($_SERVER['REQUEST_METHOD']); // pega o método 
 
-            //var_dump($method);
+            //print_r($url);
 
             try {
                 $response = call_user_func_array(array(new $service, $method), $url);
-
+                http_response_code(200);
+                echo json_encode(array('status' => 'sucess', 'data' => $response));
+                exit;
+                //$service = new App\Services\UserService();
+                //print_r($service -> get(intval($url)));
+                //print_r(RetornaId(intval($url)));
                 //var_dump($response);
 
-                echo json_encode(array('status' => 'sucess', 'data' => $response));
             } catch (\Exception $e){
-                //
+                http_response_code(500);
+                echo json_encode(array('status' => 'error', 'data' => $e->getMessage()), JSON_UNESCAPED_UNICODE); 
             }
+
         }
         
     } 
+
+    
